@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import '../../resources/resources.dart';
 import '../view.dart';
 
+final ValueNotifier<int> _screenIndex = ValueNotifier(0);
+
 class DashboardScreen extends StatelessWidget {
   DashboardScreen({super.key});
 
-  final ValueNotifier<int> _screenIndex = ValueNotifier(0);
 
   final List<Widget> _screens = [
     const PortfolioScreen(),

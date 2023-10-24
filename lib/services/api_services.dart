@@ -1,17 +1,23 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'package:final_blog_project/services/status_code.dart';
+import 'package:final_blog_project/services/user_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:dio/dio.dart' as dio;
 
+import 'api_constants.dart';
+
 // Class of the Api service , Define all the api functions Like GET, POST, PUT AND DELETE
 class ApiServices {
-  Future taskData({required String api}) async {
+  Future getApi({required String api, required Map<String, dynamic> body}) async {
     try {
-      http.Response response = await http.get(Uri.parse(api));
+      final response = await dio.Dio().get(api,
+        data: body,
+      );
       log(response.statusCode.toString());
       if (response.statusCode == ServerStatusCodes.success) {
-        var jsonData = jsonDecode(response.body)['data'];
+        log(response.data.toString());
+        var jsonData = response.data;
         return jsonData;
       }
     } catch (e) {

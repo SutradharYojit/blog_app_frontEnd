@@ -28,7 +28,7 @@ class UserPreferences {
   }
 
   // to get the user data which is stores locally
-  void getUserInfo() async {
+  Future getUserInfo() async {
     final SharedPreferences userData = await SharedPreferences.getInstance();
     token = userData.getString("token");
     loggedIn = userData.getBool("loggedIn");
@@ -37,7 +37,11 @@ class UserPreferences {
   }
 
   // to store the user data locally
-  Future saveLoginUserInfo(String? token, bool userLoggedIn, String? userId) async {
+  Future saveLoginUserInfo(
+    String? token,
+    bool userLoggedIn,
+    String? userId,
+  ) async {
     SharedPreferences userCredentials = await SharedPreferences.getInstance();
     userCredentials.setString("token", token ?? "");
     userCredentials.setBool("loggedIn", userLoggedIn);

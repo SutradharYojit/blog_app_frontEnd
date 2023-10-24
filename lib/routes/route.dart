@@ -32,5 +32,11 @@ GoRouter router = GoRouter(
         return  DashboardScreen();
       },
     ),
+    GoRoute(
+      path: RoutesName.editProfileScreen,
+      builder: (context, state) {
+        return  EditProfileScreen();
+      },
+    ),
   ],
 );

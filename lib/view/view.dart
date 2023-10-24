@@ -7,3 +7,4 @@ export 'blog_listing/blog_listing_screen.dart';
 export 'blog_details/blog_details_screen.dart';
 export 'portfolio/portfolio_screen.dart';
 export 'blogger_contact/blogger_contact_screen.dart';
+export 'blogger_profile/edit_profile_screen.dart';

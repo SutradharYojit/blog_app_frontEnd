@@ -13,7 +13,7 @@ class PortfolioScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: AppBarTitle(title: StringManager.portfolioAppBarTitle),
+        title: const AppBarTitle(title: StringManager.portfolioAppBarTitle),
       ),
       body: SafeArea(
         child: Padding(
@@ -38,9 +38,9 @@ class PortfolioScreen extends StatelessWidget {
                     children: [
                       Container(
                         width: 110.w,
-                        height: 95.h,
+                        height: 80.h,
                         decoration: BoxDecoration(
-                          image: DecorationImage(
+                          image: const DecorationImage(
                             fit: BoxFit.fill,
                             image: NetworkImage(
                               "https://c4.wallpaperflare.com/wallpaper/384/350/430/digital-art-artwork-cyber-cyberpunk-neon-hd-wallpaper-preview.jpg",
@@ -53,14 +53,14 @@ class PortfolioScreen extends StatelessWidget {
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.all(15.0.w),
+                        padding: EdgeInsets.all(11.0.w),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
                               "Yojit Sutradahr",
                               style: TextStyle(
-                                fontSize: 18.sp,
+                                fontSize: 12.sp,
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
@@ -72,7 +72,7 @@ class PortfolioScreen extends StatelessWidget {
                                   Text(
                                     "yojit Sutradhar@gmail.com",
                                     style: TextStyle(
-                                      fontSize: 15.sp,
+                                      fontSize: 13.sp,
                                     ),
                                   ),
                                 ],
@@ -86,7 +86,7 @@ class PortfolioScreen extends StatelessWidget {
                                   Text(
                                     "${StringManager.projectTxt}: 10",
                                     style: TextStyle(
-                                      fontSize: 15.sp,
+                                      fontSize: 12.sp,
                                     ),
                                   ),
                                 ],

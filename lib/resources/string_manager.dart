@@ -26,10 +26,12 @@ class StringManager {
   static const blogScreen = "Blog";
   static const profileScreen = "Profile";
 
-  // Portfoilo Screen
+  // portFolio Screen
   static const portfolioAppBarTitle = "Portfolio";
   static const projectTxt = "Projects";
 
+  // userProfile Screen
+  static const userProfileAppBarTitle = "Profile";
 
 
 

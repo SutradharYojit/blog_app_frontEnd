@@ -7,13 +7,13 @@ class BlogListingScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Portfolio Screen"),
+        title: Text("Blogs"),
       ),
       body: SafeArea(
         child: Column(
           children: [
             Center(
-              child: Text("Portfolio Screen"),
+              child: Text("Blogs Screen"),
             )
           ],
         ),

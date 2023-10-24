@@ -1,54 +1,55 @@
-class SignUpModel {
-  String? message;
+class UserDataModel {
   bool? success;
-  Result? result;
+  UserData? userData;
 
-  SignUpModel({this.message, this.success, this.result});
+  UserDataModel({this.success, this.userData});
 
-  SignUpModel.fromJson(Map<String, dynamic> json) {
-    message = json['message'];
+  UserDataModel.fromJson(Map<String, dynamic> json) {
     success = json['success'];
-    result =
-    json['result'] != null ? new Result.fromJson(json['result']) : null;
+    userData = json['userData'] != null
+        ? new UserData.fromJson(json['userData'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['message'] = this.message;
     data['success'] = this.success;
-    if (this.result != null) {
-      data['result'] = this.result!.toJson();
+    if (this.userData != null) {
+      data['userData'] = this.userData!.toJson();
     }
     return data;
   }
 }
 
-class Result {
+class UserData {
   String? id;
   String? userName;
   String? email;
   String? password;
-  String? updatedAt;
-  String? createdAt;
   String? profileUrl;
+  String? bio;
+  String? createdAt;
+  String? updatedAt;
 
-  Result(
+  UserData(
       {this.id,
         this.userName,
         this.email,
         this.password,
-        this.updatedAt,
+        this.profileUrl,
+        this.bio,
         this.createdAt,
-        this.profileUrl});
+        this.updatedAt});
 
-  Result.fromJson(Map<String, dynamic> json) {
+  UserData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     userName = json['userName'];
     email = json['email'];
     password = json['password'];
-    updatedAt = json['updatedAt'];
-    createdAt = json['createdAt'];
     profileUrl = json['profileUrl'];
+    bio = json['bio'];
+    createdAt = json['createdAt'];
+    updatedAt = json['updatedAt'];
   }
 
   Map<String, dynamic> toJson() {
@@ -57,9 +58,10 @@ class Result {
     data['userName'] = this.userName;
     data['email'] = this.email;
     data['password'] = this.password;
-    data['updatedAt'] = this.updatedAt;
-    data['createdAt'] = this.createdAt;
     data['profileUrl'] = this.profileUrl;
+    data['bio'] = this.bio;
+    data['createdAt'] = this.createdAt;
+    data['updatedAt'] = this.updatedAt;
     return data;
   }
 }

@@ -32,8 +32,8 @@ class _SplashScreenState extends State<SplashScreen> {
     Duration duration = const Duration(seconds: 3);
     Future.delayed(
       duration,
-          () {
-        if (UserPreferences.loggedIn==true) {
+      () {
+        if (UserPreferences.loggedIn == true) {
           // its yes move to dashboard screen
           log(UserPreferences.userId.toString());
           context.go(RoutesName.dashboardScreen);
@@ -55,7 +55,10 @@ class _SplashScreenState extends State<SplashScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Lottie.asset(AnimationAssets.splashAnimation),
+                Lottie.asset(
+                  AnimationAssets.splashAnimation,
+                  height: 170.h
+                ),
                 Text(
                   StringManager.myApp,
                   style: TextStyle(

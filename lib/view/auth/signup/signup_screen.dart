@@ -145,8 +145,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               if(value["success"]){
                                 userPreferences.saveLoginUserInfo(
                                     value["token"],
+                                    value["success"],
                                     value["userId"],
-                                    value["token"],
                                 );
                                 Navigator.pop(context);
                                 context.go(RoutesName.dashboardScreen);

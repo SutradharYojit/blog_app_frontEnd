@@ -121,7 +121,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               userPreferences.saveLoginUserInfo(
                                 value["token"],
                                 value["success"],
-                                value["token"],
+                                value["userId"],
                               );
                               Navigator.pop(context);
                               context.go(RoutesName.dashboardScreen);
