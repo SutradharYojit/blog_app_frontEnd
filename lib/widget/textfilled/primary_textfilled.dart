@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:final_blog_project/resources/color_manager.dart';
 import 'package:flutter/material.dart';
 // this primary textfilled where we use this in all over the app
@@ -15,6 +17,8 @@ class PrimaryTextFilled extends StatelessWidget {
     this.maxLength,
     this.readOnly,
     this.focusNode,
+    this.onFieldSubmitted,
+    this.textInputAction,
   });
 
   final TextEditingController controller;
@@ -28,6 +32,8 @@ class PrimaryTextFilled extends StatelessWidget {
   final bool? autofocus;
   final bool? readOnly;
   final FocusNode? focusNode;
+  final TextInputAction? textInputAction;
+  final void Function(String)? onFieldSubmitted;
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +42,8 @@ class PrimaryTextFilled extends StatelessWidget {
       readOnly: readOnly ?? false,
       autofocus: autofocus ?? false,
       controller: controller,
-      textInputAction: TextInputAction.next,
+      onFieldSubmitted: onFieldSubmitted,
+      textInputAction: textInputAction?? TextInputAction.next,
       keyboardType: keyboardType,
       maxLines: maxLines ?? null,
       maxLength: maxLength,

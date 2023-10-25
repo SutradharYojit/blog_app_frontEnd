@@ -21,8 +21,9 @@ class UserPreferences {
       },
     );
     final SharedPreferences userData = await SharedPreferences.getInstance();
-    userData.setString("email", "");
-    userData.setBool("uid", false);
+    userData.setString("token", "");
+    userData.setBool("loggedIn", false);
+    userData.setString("userId", "");
     // ignore: use_build_context_synchronously
     context.go(RoutesName.loginScreen);
   }

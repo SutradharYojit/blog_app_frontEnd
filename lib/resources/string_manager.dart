@@ -29,11 +29,31 @@ class StringManager {
   // portFolio Screen
   static const portfolioAppBarTitle = "Portfolio";
   static const projectTxt = "Projects";
-
-  // userProfile Screen
   static const userProfileAppBarTitle = "Profile";
+  static const emptyProjectTxt = "No Project Yet";
 
 
+  // Blogs Screen
+  static const blogsAppBarTitle = "Blogs";
+  static const hashHintTxt = "Enter hasTags";
+  static const hashLabelTxt = "HasTag";
+  static const editTxt = "Edit";
+  static const deleteTxt = "Delete";
+
+
+  // Add Project Screen
+  static const titleHintTxt = "Enter Title";
+  static const titleLabelTxt = "Title";
+  static const descHintTxt = "Enter Description";
+  static const descLabelTxt = "Description";
+  static const techHintTxt = "Enter Technologies";
+  static const techLabelTxt = "Technologies";
+  static const urlHintTxt = "Enter Url";
+  static const urlLabelTxt = "Url";
+  static const addProjectTxt = "Add Project";
+  static const addProjectSuccessTxt = "Add Project Successfully";
+  static const updateProjectSuccessTxt = "update Project Successfully";
+  static const updateProjectTxt = "Update Project";
 
 }
 

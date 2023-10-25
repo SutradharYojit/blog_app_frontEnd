@@ -9,5 +9,6 @@ class AnimationAssets {
 
 class IconAssets {
   static const String appIcon = "$ICONS_PATH/blog_app.png";
+  static const String emptyProjectIcon = "$ICONS_PATH/empty_project.png";
 }
 

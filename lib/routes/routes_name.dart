@@ -7,4 +7,11 @@ class RoutesName{
   static const String dashboardScreen="/Dashboard";
   static const String homeScreen="/HomeScreen";
   static const String editProfileScreen="/EditProfileScreen";
+  static const String userProjectListingScreen="/UserProjectListingScreen";
+  static const String addProjectScreen="/AddProjectScreen";
+  static const String projectDetailsScreen="/ProjectDetailsScreen";
+  static const String webViewScreen="/WebViewScreen";
+  static const String bloggerProfileScreen="/BloggerProfileScreen";
+  static const String addBlogScreen="/AddBlogScreen";
+  static const String blogDetailsScreen="/BlogDetailsScreen";
 }

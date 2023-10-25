@@ -46,8 +46,8 @@ class UserData {
     userName = json['userName'];
     email = json['email'];
     password = json['password'];
-    profileUrl = json['profileUrl'];
-    bio = json['bio'];
+    profileUrl = json['profileUrl']??"ok";
+    bio = json['bio']??"";
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
   }

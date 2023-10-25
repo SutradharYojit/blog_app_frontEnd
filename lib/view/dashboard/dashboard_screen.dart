@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../resources/resources.dart';
 import '../view.dart';
-
 final ValueNotifier<int> _screenIndex = ValueNotifier(0);
 
 class DashboardScreen extends StatelessWidget {
@@ -10,8 +9,8 @@ class DashboardScreen extends StatelessWidget {
 
   final List<Widget> _screens = [
     const PortfolioScreen(),
-    const BlogListingScreen(),
-    const BloggerProfileScreen(),
+      BlogListingScreen(),
+    const UserProfileScreen(),
   ];
 
   @override

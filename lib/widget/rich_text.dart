@@ -7,27 +7,22 @@ class TextRich extends StatelessWidget {
     super.key,
     required this.firstText,
     required this.secText,
+    required this.style1,
+    required this.style2,
   });
 
   final String firstText;
   final String secText;
+  final TextStyle style1;
+  final TextStyle style2;
 
   @override
   Widget build(BuildContext context) {
     return RichText(
       text: TextSpan(
         text: firstText,
-        style:   TextStyle(color: ColorManager.tealColor, fontSize: 14.sp),
-        children: <TextSpan>[
-          TextSpan(
-            text: '\t $secText',
-            style:   TextStyle(
-              color: ColorManager.blackColor,
-              fontSize: 14.sp,
-              fontWeight: FontWeight.w800,
-            ),
-          )
-        ],
+        style: style1,
+        children: <TextSpan>[TextSpan(text: secText, style: style2)],
       ),
     );
   }

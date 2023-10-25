@@ -7,9 +7,9 @@ class BloggerContactScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Contact Screen"),
+        title: const Text("Contact Screen"),
       ),
-      body: SafeArea(
+      body: const SafeArea(
         child: Column(
           children: [
             Center(

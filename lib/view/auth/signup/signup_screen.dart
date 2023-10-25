@@ -167,9 +167,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         onTap: () {
                           context.go(RoutesName.loginScreen); //navgationto login screen
                         },
-                        child: const TextRich(
+                        child:   TextRich(
                           firstText: StringManager.haveAccountTxt,
                           secText: StringManager.loginText,
+                          style1: TextStyle(color: ColorManager.tealColor, fontSize: 14.sp),
+                          style2: TextStyle(
+                            color: ColorManager.blackColor,
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w800,
+                          ),
                         ),
                       ),
                     )
