@@ -14,4 +14,5 @@ class RoutesName{
   static const String bloggerProfileScreen="/BloggerProfileScreen";
   static const String addBlogScreen="/AddBlogScreen";
   static const String blogDetailsScreen="/BlogDetailsScreen";
+  static const String bloggerContactScreen="/BloggerContactScreen";
 }

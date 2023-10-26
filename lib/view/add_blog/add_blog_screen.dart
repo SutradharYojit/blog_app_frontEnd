@@ -1,12 +1,16 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
-import 'dart:developer'as dev;
+import 'dart:developer' as dev;
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dotted_border/dotted_border.dart';
+import 'package:final_blog_project/data/blog_data_list.dart';
+import 'package:final_blog_project/services/api_constants.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
+import '../../model/model.dart';
 import '../../resources/resources.dart';
 import '../../services/services.dart';
 import '../../widget/widget.dart';
@@ -14,11 +18,12 @@ import '../../widget/widget.dart';
 class AddBlogScreen extends StatefulWidget {
   const AddBlogScreen({
     super.key,
-
+    required this.blogContent,
   });
 
-  //Getting the blog Data from the list of the blogs
+  final BlogPreferences blogContent;
 
+  //Getting the blog Data from the list of the blogs
 
   @override
   State<AddBlogScreen> createState() => _AddBlogScreenState();
@@ -30,33 +35,26 @@ class _AddBlogScreenState extends State<AddBlogScreen> {
   final TextEditingController _tagsController = TextEditingController();
   final ImagePicker picker = ImagePicker();
   final ValueNotifier<List> _tagsList = ValueNotifier([]);
+  ValueNotifier<String> imgUrl = ValueNotifier(""); // to manage the focus
+
   File? imageFile;
   final bar = WarningBar();
   String dropdownValue = 'Lifestyle';
-
-    List<String> blogCategory = [
-    "Lifestyle",
-    "Health and Wellness",
-    "Food and Cooking",
-    "Travel",
-    "Personal Finance",
-    "Technology",
-    "Parenting",
-    "Fashion and Beauty",
-    "Home Decor and DIY",
-    "Business and Entrepreneurship",
-  ];
 
 
   @override
   void initState() {
     super.initState();
     // the condition check while data is coming from blog list screen and used to update the blog data
-    // if (widget.blogPreference.blogChoice) {
-    //   _titleController.text = widget.blogPreference.title!;
-    //   _descriptionController.text = widget.blogPreference.description!;
-    // }
+    if (widget.blogContent.blogChoice) {
+      imgUrl.value = widget.blogContent.blogData!.blogImgUrl!;
+      _titleController.text = widget.blogContent.blogData!.title!;
+      dropdownValue = widget.blogContent.blogData!.categories!;
+      _tagsList.value = widget.blogContent.blogData!.tags!;
+      _descriptionController.text = widget.blogContent.blogData!.description!;
+    }
   }
+
   Future<String> uploadImage() async {
     try {
       final FirebaseStorage storage = FirebaseStorage.instance;
@@ -64,8 +62,7 @@ class _AddBlogScreenState extends State<AddBlogScreen> {
       var random = Random.secure();
       var values = List<int>.generate(20, (i) => random.nextInt(255));
       String imageName = base64UrlEncode(values);
-      final String imagePath =
-          'blogsImages/${UserPreferences.userId}/$imageName';
+      final String imagePath = 'blogsImages/${UserPreferences.userId}/$imageName';
       UploadTask uploadTask = storage.ref().child(imagePath).putFile(image!);
       TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() => null);
       final String imageUrl = await taskSnapshot.ref.getDownloadURL();
@@ -75,19 +72,24 @@ class _AddBlogScreenState extends State<AddBlogScreen> {
       return "";
     }
   }
+
   @override
   void dispose() {
     super.dispose();
     _titleController.dispose();
     _descriptionController.dispose();
+    _tagsController.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const AppBarTitle(
-          title: "Add BLog", //check weather its should be add blog or update blog
+        titleSpacing: 1,
+        title: AppBarTitle(
+          title: widget.blogContent.blogChoice
+              ? StringManager.updateBlogTxt
+              : StringManager.addBlogTxt, //check weather its should be add blog or update blog
         ),
       ),
       body: SingleChildScrollView(
@@ -103,46 +105,123 @@ class _AddBlogScreenState extends State<AddBlogScreen> {
                     padding: EdgeInsets.all(6.r),
                     dashPattern: const [7, 3],
                     strokeWidth: 1,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(12.r),
-                      ),
-                      child: imageFile != null
-                          ? SizedBox(
-                        height: 170.h,
-                        width: double.infinity,
-                        child: Image.file(
-                          imageFile!,
-                          fit: BoxFit.cover,
+                    // child: ClipRRect(
+                    //   borderRadius: BorderRadius.all(
+                    //     Radius.circular(12.r),
+                    //   ),
+                    //   child: imageFile != null
+                    //       ? SizedBox(
+                    //     height: 170.h,
+                    //     width: double.infinity,
+                    //     child: Image.file(
+                    //       imageFile!,
+                    //       fit: BoxFit.cover,
+                    //     ),
+                    //   )
+                    //       : Container(
+                    //     height: 170.h,
+                    //     width: double.infinity,
+                    //     color: ColorManager.tealColor,
+                    //     child: Column(
+                    //       mainAxisAlignment: MainAxisAlignment.center,
+                    //       children: [
+                    //         IconButton(
+                    //           splashColor: Colors.teal,
+                    //           onPressed: () async {
+                    //             final image = await picker.pickImage(
+                    //               source: ImageSource.gallery,
+                    //             );
+                    //             setState(() {
+                    //               imageFile = File(image!.path);
+                    //             });
+                    //             final imageUrl=await uploadImage();
+                    //             imgUrl.value=imageUrl;
+                    //             dev.log(imageUrl.toString());
+                    //           },
+                    //           icon: Icon(
+                    //             Icons.add_circle_outline,
+                    //             size: 50.h,
+                    //           ),
+                    //         ),
+                    //       ],
+                    //     ),
+                    //   ),
+                    // ),
+                    child: Stack(
+                      children: [
+                        ValueListenableBuilder(
+                          valueListenable: imgUrl,
+                          builder: (context, value, child) {
+                            return SizedBox(
+                              height: 170.h,
+                              width: double.infinity,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(10.w),
+                                ),
+                                child: CachedNetworkImage(
+                                  imageUrl: value,
+                                  fit: BoxFit.cover,
+                                  progressIndicatorBuilder: (context, url, downloadProgress) => Center(
+                                    child: CircularProgressIndicator(value: downloadProgress.progress),
+                                  ),
+                                  errorWidget: (context, url, error) => Center(
+                                    child: Image.asset(
+                                      IconAssets.blankImgIcon,
+                                      height: 60.h,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
                         ),
-                      )
-                          : Container(
-                        height: 170.h,
-                        width: double.infinity,
-                        color: ColorManager.tealColor,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            IconButton(
-                              splashColor: Colors.teal,
-                              onPressed: () async {
-                                final image = await picker.pickImage(
-                                  source: ImageSource.gallery,
-                                );
-                                setState(() {
-                                  imageFile = File(image!.path);
-                                });
-                                final imageUrl=await uploadImage();
-                                dev.log(imageUrl.toString());
-                              },
-                              icon: Icon(
-                                Icons.add_circle_outline,
-                                size: 50.h,
+                        Positioned(
+                          bottom: 0,
+                          right: 0,
+                          child: Visibility(
+                            visible: true,
+                            child: Container(
+                              decoration:
+                                  BoxDecoration(color: ColorManager.greyColor, borderRadius: BorderRadius.circular(10)),
+                              child: IconButton(
+                                onPressed: () async {
+                                  await picker
+                                      .pickImage(
+                                    source: ImageSource.gallery,
+                                  )
+                                      .then((image) async {
+                                    dev.log(image.toString());
+                                    if (image != null) {
+                                      showDialog(
+                                        context: context,
+                                        builder: (context) {
+                                          return const Center(
+                                            child: Loading(),
+                                          );
+                                        },
+                                      );
+                                      setState(() {
+                                        imageFile = File(image!.path);
+                                      });
+                                      final imageUrl = await uploadImage();
+                                      imgUrl.value = imageUrl;
+                                      Navigator.pop(context);
+                                      dev.log(imgUrl.value);
+                                    }
+                                  });
+                                },
+                                icon: Center(
+                                  child: Icon(
+                                    Icons.camera,
+                                    size: 18.h,
+                                  ),
+                                ),
                               ),
                             ),
-                          ],
-                        ),
-                      ),
+                          ),
+                        )
+                      ],
                     ),
                   ),
                 ),
@@ -159,24 +238,25 @@ class _AddBlogScreenState extends State<AddBlogScreen> {
                   ),
                 ),
                 Padding(
-                  padding:   EdgeInsets.only(top: 15.0.r),
+                  padding: EdgeInsets.only(top: 15.0.r),
                   child: DropdownButtonFormField(
                     decoration: InputDecoration(
                       enabledBorder: buildOutlineInputBorder(),
                       focusedBorder: buildOutlineInputBorder(),
                     ),
-                    value: blogCategory[0],
+                    value: BlogDataList.blogCategory[0],
                     onChanged: (String? newValue) {
+                      dev.log(newValue.toString());
                       setState(() {
                         dropdownValue = newValue!;
                       });
                     },
-                    items: blogCategory.map<DropdownMenuItem<String>>((String value) {
+                    items: BlogDataList.blogCategory.map<DropdownMenuItem<String>>((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
                         child: Text(
                           value,
-                          style: TextStyle(fontSize: 20),
+                          style: TextStyle(fontSize: 15.sp),
                         ),
                       );
                     }).toList(),
@@ -199,30 +279,30 @@ class _AddBlogScreenState extends State<AddBlogScreen> {
                         itemBuilder: (context, index) {
                           return Card(
                               child: Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Text("#${data[index]}"),
-                                    InkWell(
-                                      onTap: () {
-                                        dev.log("onTap");
-                                        _tagsList.value.removeAt(index);
-                                        setState(() {});
-                                      },
-                                      child: CircleAvatar(
-                                        radius: 10,
-                                        backgroundColor: ColorManager.grey300Color,
-                                        child: Icon(
-                                          Icons.close,
-                                          size: 13.h,
-                                        ),
-                                      ),
+                            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text("#${data[index]}"),
+                                InkWell(
+                                  onTap: () {
+                                    dev.log("onTap");
+                                    _tagsList.value.removeAt(index);
+                                    setState(() {});
+                                  },
+                                  child: CircleAvatar(
+                                    radius: 10,
+                                    backgroundColor: ColorManager.grey300Color,
+                                    child: Icon(
+                                      Icons.close,
+                                      size: 13.h,
                                     ),
-                                  ],
+                                  ),
                                 ),
-                              ));
+                              ],
+                            ),
+                          ));
                         },
                       ),
                     );
@@ -259,63 +339,66 @@ class _AddBlogScreenState extends State<AddBlogScreen> {
                   ),
                 ),
                 PrimaryButton(
-                  title: "Add Project",
+                  title: widget.blogContent.blogChoice ? StringManager.updateBlogTxt : StringManager.addBlogTxt,
                   onTap: () async {
-                    // WidgetsBinding.instance.focusManager.primaryFocus?.unfocus();
-                    // if (_titleController.text.trim() == "" ||
-                    //     _titleController.text.trim().isEmpty ||
-                    //     _descriptionController.text.trim() == "" ||
-                    //     _descriptionController.text.trim().isEmpty) {
-                    //   // through the error snack bar when one of the text filled is empty
-                    //   requiredAllFilled(context);
-                    // } else {
-                    //   final addBlog = bar.snack(ApiServiceManager.blogAdd, ColorManager.greenColor);
-                    //   final updateBlog = bar.snack(ApiServiceManager.blogUpdate, ColorManager.greenColor);
-                    //   // Loading screen
-                    //   showDialog(
-                    //     context: context,
-                    //     builder: (context) {
-                    //       return const Center(
-                    //         child: Loading(),
-                    //       );
-                    //     },
-                    //   );
-                    //   // condition is invoke when the data is pas through from blog details screen
-                    //   if (widget.blogPreference.blogChoice) {
-                    //     // function to update the existing blog
-                    //     ApiServices().editBlogData(
-                    //       {
-                    //         ApiServiceManager.apiTitleKey: _titleController.text.trim(),
-                    //         ApiServiceManager.apiDescriptionKey: _descriptionController.text.trim(),
-                    //         ApiServiceManager.apiAuthorKey: UserGlobalVariables.uid!.toString(),
-                    //         ApiServiceManager.apiImageUrlKey:
-                    //         "https://c4.wallpaperflare.com/wallpaper/410/867/750/vector-forest-sunset-forest-sunset-forest-wallpaper-preview.jpg"
-                    //       },
-                    //       widget.blogPreference.index!,
-                    //     ).then((value) {
-                    //       Navigator.pop(context);
-                    //       ScaffoldMessenger.of(context).showSnackBar(updateBlog);
-                    //     });
-                    //   } else {
-                    //     //function to add blog data
-                    //     ApiServices().addBlogData(
-                    //       {
-                    //         ApiServiceManager.apiTitleKey: _titleController.text.trim(),
-                    //         ApiServiceManager.apiDescriptionKey: _descriptionController.text.trim(),
-                    //         ApiServiceManager.apiAuthorKey: UserGlobalVariables.uid!.toString(),
-                    //         ApiServiceManager.apiImageUrlKey:
-                    //         "https://c4.wallpaperflare.com/wallpaper/410/867/750/vector-forest-sunset-forest-sunset-forest-wallpaper-preview.jpg"
-                    //       },
-                    //     ).then(
-                    //           (value) {
-                    //         _titleController.clear();
-                    //         _descriptionController.clear();
-                    //         Navigator.pop(context);
-                    //         ScaffoldMessenger.of(context).showSnackBar(addBlog);
-                    //       },
-                    //     );
-                    //   }
-                    // }
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return const Center(
+                          child: Loading(),
+                        );
+                      },
+                    );
+                    if (widget.blogContent.blogChoice){
+                      ApiServices().postApi(
+                        api: "${APIConstants.baseUrl}blog/updateBlog",
+                        body: {
+                          "title": _titleController.text.trim(),
+                          "description": _descriptionController.text.trim(),
+                          "categories": dropdownValue,
+                          "tags": _tagsList.value,
+                          "blogImgUrl": imgUrl.value,
+                          "id":widget.blogContent.blogData!.id!
+                        },
+                      ).then(
+                            (value) {
+                          dev.log("Success");
+                          dev.log(value["success"].toString());
+                          final addBlog = bar.snack(StringManager.updateBlogTxt, ColorManager.greenColor);
+                          ScaffoldMessenger.of(context).clearSnackBars();
+                          ScaffoldMessenger.of(context).showSnackBar(addBlog);
+                          Navigator.pop(context);
+                        },
+                      );
+                    }else{
+                      ApiServices().postApi(
+                        api: "${APIConstants.baseUrl}blog/createBlog",
+                        body: {
+                          "title": _titleController.text.trim(),
+                          "description": _descriptionController.text.trim(),
+                          "categories": dropdownValue,
+                          "tags": _tagsList.value,
+                          "blogImgUrl": imgUrl.value,
+                          "userId": UserPreferences.userId
+                        },
+                      ).then(
+                            (value) {
+                          dev.log("Success");
+                          dev.log(value["success"].toString());
+                          _titleController.clear();
+                          _descriptionController.clear();
+                          _tagsList.value.clear();
+                          imgUrl.value = "";
+                          setState(() {});
+                          final addBlog = bar.snack(StringManager.addBlogSuccessTxt, ColorManager.greenColor);
+
+                          ScaffoldMessenger.of(context).clearSnackBars();
+                          ScaffoldMessenger.of(context).showSnackBar(addBlog);
+                          Navigator.pop(context);
+                        },
+                      );
+                    }
+
                   },
                 ),
               ],

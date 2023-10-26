@@ -34,17 +34,18 @@ class BloggerProfileScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: AppBarTitle(title: bloggerPortfolio.userName!),
+        leadingWidth: 40,
+        titleSpacing: 1,
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 18.0),
             child: TextButton(
-              onPressed: () {},
+              onPressed: () {
+                context.push(RoutesName.bloggerContactScreen);
+              },
               child: Text(
                 "Contact",
-                style: TextStyle(
-                  fontSize: 15.sp,
-                  fontWeight: FontWeight.w600
-                ),
+                style: TextStyle(fontSize: 15.sp, fontWeight: FontWeight.w600),
               ),
             ),
           )
@@ -115,7 +116,7 @@ class BloggerProfileScreen extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.only(top: 10.r),
                 child: Text(
-                  bloggerPortfolio.bio!,
+                  bloggerPortfolio.bio ?? "",
                   style: TextStyle(
                     fontSize: 13.sp,
                   ),
@@ -211,4 +212,14 @@ class BloggerProfileScreen extends StatelessWidget {
       ),
     );
   }
+}
+
+class SendBlogMes {
+  final String bloggerMail;
+  final String bloggerName;
+
+  SendBlogMes({
+    required this.bloggerMail,
+    required this.bloggerName,
+  });
 }

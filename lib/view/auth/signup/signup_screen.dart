@@ -132,7 +132,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 return const Center(child: Loading());
                               });
                           await ApiServices().postApi(
-                            api: "${APIConstants.baseUrl}user/signUp",
+                            api: "http://10.200.147.245:1234/user/signUp",
                             body: {
                               "userName": _userController.text.trim(),
                               "email": _emailController.text.trim(),

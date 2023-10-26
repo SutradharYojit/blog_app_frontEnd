@@ -8,3 +8,4 @@ export 'appbar_title.dart';
 export 'custom_model_sheet.dart';
 export 'custom_dialog_box.dart';
 export 'popmenu_btn.dart';
+export 'up_animation.dart';

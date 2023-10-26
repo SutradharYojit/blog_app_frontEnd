@@ -22,6 +22,9 @@ class AppBarTitle extends StatelessWidget {
           padding: EdgeInsets.only(left: 8.0.r),
           child: Text(
             title,
+            style: TextStyle(fontSize: 15.sp),
+            overflow: TextOverflow.ellipsis,
+            softWrap: true,
           ),
         ),
       ],

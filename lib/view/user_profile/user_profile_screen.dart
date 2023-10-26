@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:go_router/go_router.dart';
+import '../../model/model.dart';
 import '../../resources/resources.dart';
 import '../../services/services.dart';
 import '../../widget/widget.dart';
@@ -161,7 +162,7 @@ class _BloggerProfileScreenState extends ConsumerState<UserProfileScreen> {
                             borderRadius: BorderRadius.circular(15),
                             onTap: () {
                               log("Add blogs");
-                              context.push(RoutesName.addBlogScreen);
+                              context.push(RoutesName.addBlogScreen, extra: BlogPreferences(blogChoice: false));
                             },
                             child: ListTile(
                               contentPadding: EdgeInsets.zero,
@@ -191,8 +192,14 @@ class _BloggerProfileScreenState extends ConsumerState<UserProfileScreen> {
                             },
                             child: ListTile(
                               contentPadding: EdgeInsets.zero,
-                              leading: const Icon(Icons.logout_rounded,color: ColorManager.redColor,),
-                              title: const Text("LogOut",style: TextStyle(color: ColorManager.redColor),),
+                              leading: const Icon(
+                                Icons.logout_rounded,
+                                color: ColorManager.redColor,
+                              ),
+                              title: const Text(
+                                "LogOut",
+                                style: TextStyle(color: ColorManager.redColor),
+                              ),
                               trailing: Icon(
                                 Icons.chevron_right_rounded,
                                 size: 25.h,
@@ -210,4 +217,3 @@ class _BloggerProfileScreenState extends ConsumerState<UserProfileScreen> {
     );
   }
 }
-

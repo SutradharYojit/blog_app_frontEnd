@@ -80,13 +80,24 @@ GoRouter router = GoRouter(
     GoRoute(
       path: RoutesName.addBlogScreen,
       builder: (context, state) {
-        return AddBlogScreen();
+        return AddBlogScreen(blogContent:  state.extra as BlogPreferences,);
       },
     ),
     GoRoute(
       path: RoutesName.blogDetailsScreen,
       builder: (context, state) {
-        return BlogDetailsScreen();
+        return BlogDetailsScreen(
+          blogData: state.extra as BlogDataModel,
+        );
+      },
+    ),
+    GoRoute(
+      path: RoutesName.bloggerContactScreen,
+      builder: (context, state) {
+        return BloggerContactScreen(
+          message: state.extra as SendBlogMes,
+
+        );
       },
     ),
   ],

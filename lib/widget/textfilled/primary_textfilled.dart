@@ -10,6 +10,7 @@ class PrimaryTextFilled extends StatelessWidget {
     this.hintText,
     this.labelText,
     this.prefixIcon,
+    this.suffixIcon,
     this.keyboardType,
     this.maxLines,
     this.autofocus,
@@ -26,6 +27,7 @@ class PrimaryTextFilled extends StatelessWidget {
   final String? labelText;
   final String? prefixText;
   final Widget? prefixIcon;
+  final Widget? suffixIcon;
   final TextInputType? keyboardType;
   final int? maxLines;
   final int? maxLength;
@@ -50,6 +52,7 @@ class PrimaryTextFilled extends StatelessWidget {
       decoration: InputDecoration(
           prefixText: prefixText,
           prefixIcon: prefixIcon,
+          suffixIcon: suffixIcon,
           labelText: labelText,
           hintText: hintText,
           enabledBorder: buildOutlineInputBorder(),

@@ -14,3 +14,4 @@ export 'project/project_details_screen.dart';
 export 'web_view/web_view_screen.dart';
 export 'blogger_profile/blogger_profile_screen.dart';
 export 'add_blog/add_blog_screen.dart';
+export 'comment/comment_screen.dart';

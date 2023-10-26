@@ -18,8 +18,8 @@ class BloggerPortfolio {
     id = json['id'];
     userName = json['userName'];
     email = json['email'];
-    profileUrl = json['profileUrl'];
-    bio = json['bio'];
+    profileUrl = json['profileUrl']??"";
+    bio = json['bio']??"";
 
   }
 

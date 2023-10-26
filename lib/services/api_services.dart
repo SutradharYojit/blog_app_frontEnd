@@ -31,7 +31,7 @@ class ApiServices {
     if (response_1.statusCode == ServerStatusCodes.addSuccess) {
       var jsonData = response_1.data;
       log('Status code: ${response_1.statusCode}');
-      log('Response body: ${response_1.data}');
+      // log('Response body: ${response_1.data}');
 
       return jsonData;
     } else {

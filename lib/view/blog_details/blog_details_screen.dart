@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../model/model.dart';
 import '../../resources/resources.dart';
+import '../../widget/widget.dart';
+import '../view.dart';
 
 class BlogDetailsScreen extends StatelessWidget {
-  const BlogDetailsScreen({
-    super.key,
-  });
+  const BlogDetailsScreen({super.key, required this.blogData});
 
+  final BlogDataModel blogData;
   final String markdownData = """
   # Flutter Markdown Example
 
@@ -38,7 +40,10 @@ class BlogDetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Blog Details"),
+        title: Text(
+          blogData.title!,
+          style: TextStyle(fontSize: 17.sp),
+        ),
       ),
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
@@ -53,10 +58,10 @@ class BlogDetailsScreen extends StatelessWidget {
                   borderRadius: BorderRadius.all(
                     Radius.circular(25.w),
                   ),
-                  image: const DecorationImage(
+                  image: DecorationImage(
                     fit: BoxFit.cover,
                     image: NetworkImage(
-                      "https://c4.wallpaperflare.com/wallpaper/410/867/750/vector-forest-sunset-forest-sunset-forest-wallpaper-preview.jpg",
+                      blogData.blogImgUrl!,
                     ),
                   ),
                 ),
@@ -69,10 +74,48 @@ class BlogDetailsScreen extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(top: 8.0),
                       child: Text(
-                        "Title",
+                        blogData.title!,
                         style: TextStyle(
                           fontWeight: FontWeight.w600,
-                          fontSize: 18.sp,
+                          fontSize: 14.sp,
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(top: 10.r),
+                      child: GridView.builder(
+                        shrinkWrap: true,
+                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 3,
+                          mainAxisSpacing: 10,
+                          crossAxisSpacing: 1,
+                          childAspectRatio: 2.5,
+                        ),
+                        itemCount: blogData.tags!.length,
+                        itemBuilder: (context, index) {
+                          return Card(
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                              child: SizedBox(
+                                width: 100,
+                                child: Center(
+                                    child: Text(
+                                  "# ${blogData.tags![index]}",
+                                  style: TextStyle(fontSize: 12.sp),
+                                )),
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: Text(
+                        blogData.categories!,
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 14.sp,
                         ),
                       ),
                     ),
@@ -81,19 +124,7 @@ class BlogDetailsScreen extends StatelessWidget {
                       thickness: 1.5,
                       color: ColorManager.greyColor,
                     ),
-                    Text(
-                      "Description",
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 18.sp,
-                      ),
-                    ),
-                    Divider(
-                      height: 18.h,
-                      thickness: 1.5,
-                      color: ColorManager.greyColor,
-                    ),
-                    SizedBox(
+                    /*SizedBox(
                       height: 250,
                       child: Markdown(
                         data: """# Mastering Your Personal Finances
@@ -116,6 +147,17 @@ Expand your financial knowledge through books, blogs, workshops, and webinars. F
                           a: const TextStyle(color: Colors.blue),
                         ),
                       ),
+                    ),*/
+                    SizedBox(
+                      height: 250,
+                      child: Markdown(
+                        data: blogData.description!,
+                        styleSheet: MarkdownStyleSheet(
+                          h1: const TextStyle(fontSize: 25),
+                          h2: const TextStyle(fontSize: 20),
+                          a: const TextStyle(color: Colors.blue),
+                        ),
+                      ),
                     ),
                   ],
                 ),
@@ -123,6 +165,16 @@ Expand your financial knowledge through books, blogs, workshops, and webinars. F
             ],
           ),
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: ColorManager.rgbWhiteColor,
+        onPressed: () {
+          buildShowModalBottomSheet(
+            context,
+            widget: CommentScreen(blogId: blogData.id!),
+          );
+        },
+        child: Image.asset(IconAssets.commentIcon, height: 25.h),
       ),
     );
   }

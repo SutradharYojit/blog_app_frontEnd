@@ -32,14 +32,17 @@ class StringManager {
   static const userProfileAppBarTitle = "Profile";
   static const emptyProjectTxt = "No Project Yet";
 
-
   // Blogs Screen
   static const blogsAppBarTitle = "Blogs";
   static const hashHintTxt = "Enter hasTags";
   static const hashLabelTxt = "HasTag";
   static const editTxt = "Edit";
   static const deleteTxt = "Delete";
-
+  static const addBlogSuccessTxt = "Add Blog Successfully";
+  static const updateBlogSuccessTxt = "update Blog Successfully";
+  static const emptyBlogTxt = "No Blog Data";
+  static const addBlogTxt = "Add Blog";
+  static const updateBlogTxt = "Update Blog";
 
   // Add Project Screen
   static const titleHintTxt = "Enter Title";
@@ -55,6 +58,13 @@ class StringManager {
   static const updateProjectSuccessTxt = "update Project Successfully";
   static const updateProjectTxt = "Update Project";
 
+  // Contact Screen
+  static const sendMailTxt = "Send mail";
+  static const messHintTxt = "Enter Message";
+  static const messLabelTxt = "Message";
+  // Comment Screen
+  static const commentHintTxt = "Add Comment";
+  static const commentLabelTxt = "Comment";
 }
 
 // Api Service String Manager and key also
@@ -65,5 +75,4 @@ class ApiServiceManager {
   static const apiDescriptionKey = "description";
   static const apiAuthorKey = "authorId";
   static const apiImageUrlKey = "imageUrl";
-
 }

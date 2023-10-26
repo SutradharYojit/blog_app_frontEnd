@@ -9,7 +9,9 @@ class ColorManager{
   static const  Color redColor=Colors.red;
   static const  Color blurColor=Colors.blue;
   static Color grey300Color= Colors.grey.shade400;
+  static Color grey500Color= Colors.grey.shade500;
   static const  Color tealColor=Color(0xff62c2cc);
   static const  Color gradientLightTealColor=Color(0xff4cd0d0);
+  static Color rgbWhiteColor=const Color.fromRGBO(241, 242, 245, 1);
   static const  Color gradientDarkTealColor=Color(0xff1aa6b7);
 }

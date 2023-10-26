@@ -27,21 +27,6 @@ class _UserProjectListingState extends ConsumerState<UserProjectListing> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Project"),
-        actions: [
-          IconButton(
-            onPressed: () {
-              context.push(
-                RoutesName.addProjectScreen,
-                extra: EditProject(
-                  projectDetailsScreen: false,
-                ),
-              );
-            },
-            icon: const Icon(
-              Icons.add_box_outlined,
-            ),
-          ),
-        ],
       ),
       body: SafeArea(
         child: Padding(
@@ -123,6 +108,17 @@ class _UserProjectListingState extends ConsumerState<UserProjectListing> {
             ],
           ),
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          context.push(
+            RoutesName.addProjectScreen,
+            extra: EditProject(
+              projectDetailsScreen: false,
+            ),
+          );
+        },
+        child: Image.asset(IconAssets.addProjectIcon,height: 25.h,)
       ),
     );
   }

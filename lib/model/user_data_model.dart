@@ -25,31 +25,23 @@ class UserData {
   String? id;
   String? userName;
   String? email;
-  String? password;
   String? profileUrl;
   String? bio;
-  String? createdAt;
-  String? updatedAt;
 
   UserData(
       {this.id,
         this.userName,
         this.email,
-        this.password,
         this.profileUrl,
         this.bio,
-        this.createdAt,
-        this.updatedAt});
+        });
 
   UserData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     userName = json['userName'];
     email = json['email'];
-    password = json['password'];
     profileUrl = json['profileUrl']??"ok";
     bio = json['bio']??"";
-    createdAt = json['createdAt'];
-    updatedAt = json['updatedAt'];
   }
 
   Map<String, dynamic> toJson() {
@@ -57,11 +49,8 @@ class UserData {
     data['id'] = this.id;
     data['userName'] = this.userName;
     data['email'] = this.email;
-    data['password'] = this.password;
     data['profileUrl'] = this.profileUrl;
     data['bio'] = this.bio;
-    data['createdAt'] = this.createdAt;
-    data['updatedAt'] = this.updatedAt;
     return data;
   }
 }
